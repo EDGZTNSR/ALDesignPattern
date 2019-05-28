@@ -1,17 +1,16 @@
-import * as vscode from 'vscode';
-
-export function activate(context: vscode.ExtensionContext) {
-
-	let observerCommand = vscode.commands.registerCommand('extension.createObserver', () => {
-		CreateObserverTable();
-		CreateObserverCodeunit();
-	});
-
-	context.subscriptions.push(observerCommand);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const vscode = require("vscode");
+function activate(context) {
+    let observerCommand = vscode.commands.registerCommand('extension.createObserver', () => {
+        CreateObserverTable();
+        CreateObserverCodeunit();
+    });
+    context.subscriptions.push(observerCommand);
 }
-
-function CreateObserverTable(){
-	let tableText = `table 50000 Observer
+exports.activate = activate;
+function CreateObserverTable() {
+    let tableText = `table 50000 Observer
 {
 	DataClassification = ToBeClassified;
 
@@ -49,23 +48,21 @@ function CreateObserverTable(){
 	}
 
 }`;
-	
-	let documentTitle = "TAB50000.Observer.al";	
-	var setting: vscode.Uri = vscode.Uri.parse("untitled:" + documentTitle);
-	vscode.workspace.openTextDocument(setting).then((tableDoc: vscode.TextDocument) => {
-		vscode.window.showTextDocument(tableDoc, 1, false).then(e => {
-			e.edit(edit => {
-				edit.insert(new vscode.Position(0, 0), tableText);
-			});
-		});
-	}, (error: any) => {
-		console.error(error);
-		debugger;
-	});	
-} 
-
-function CreateObserverCodeunit(){
-	let CodeunitText = `codeunit 50000 ObserverMgt
+    let documentTitle = "TAB50000.Observer.al";
+    var setting = vscode.Uri.parse("untitled:" + documentTitle);
+    vscode.workspace.openTextDocument(setting).then((tableDoc) => {
+        vscode.window.showTextDocument(tableDoc, 1, false).then(e => {
+            e.edit(edit => {
+                edit.insert(new vscode.Position(0, 0), tableText);
+            });
+        });
+    }, (error) => {
+        console.error(error);
+        debugger;
+    });
+}
+function CreateObserverCodeunit() {
+    let CodeunitText = `codeunit 50000 ObserverMgt
 {
 
 	[EventSubscriber(ObjectType::Codeunit, Codeunit::"Global Triggers", 'GetDatabaseTableTriggerSetup', '', true, true)]
@@ -130,20 +127,19 @@ function CreateObserverCodeunit(){
 		Observable_g: Record DPO_Observer;
 
 } `;
-	
-	let documentTitle = "COD50000.ObserverMgt.al";	
-	var setting: vscode.Uri = vscode.Uri.parse("untitled:" + documentTitle);
-	vscode.workspace.openTextDocument(setting).then((codeunitDoc: vscode.TextDocument) => {
-		vscode.window.showTextDocument(codeunitDoc, 1, false).then(e => {
-			e.edit(edit => {
-				edit.insert(new vscode.Position(0, 0), CodeunitText);
-			});
-		});
-	}, (error: any) => {
-		console.error(error);
-		debugger;
-	});	
+    let documentTitle = "COD50000.ObserverMgt.al";
+    var setting = vscode.Uri.parse("untitled:" + documentTitle);
+    vscode.workspace.openTextDocument(setting).then((codeunitDoc) => {
+        vscode.window.showTextDocument(codeunitDoc, 1, false).then(e => {
+            e.edit(edit => {
+                edit.insert(new vscode.Position(0, 0), CodeunitText);
+            });
+        });
+    }, (error) => {
+        console.error(error);
+        debugger;
+    });
 }
-
-export function deactivate() {}
-
+function deactivate() { }
+exports.deactivate = deactivate;
+//# sourceMappingURL=extension.js.map
